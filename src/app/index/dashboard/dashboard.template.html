@@ -1,0 +1,45 @@
+<div class="row dashboard">
+    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+        <div class="page-header">
+            <h1 id="navbar">Dashboard</h1>
+        </div>
+        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+            <div class="list-group bases">
+                <a class="base list-group-item" ng-click="expand[base.pk] = !expand[base.pk]" ng-repeat="base in $ctrl.data.bases">
+                    <h4 class="base-head list-group-item-heading">{{base.value.name}}
+                        <div class="base-head-controls">
+                            <div class="btn-group" ng-class="dropDown">
+                                <button class="btn btn-link dropdown-toggle" ng-click="$event.stopPropagation(); dropDown = dropDown ? '' : 'open';">
+                                    Edit
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><button class="btn btn-default" ng-click="$event.stopPropagation();" ui-sref="app.index.edit({ baseId: base.pk})">Edit</button></li>
+                                    <li><button class="btn btn-default" ng-click="$event.stopPropagation(); $ctrl.memorize(base);">Memorise</button></li>
+                                    <li><button class="btn btn-default" ng-click="$event.stopPropagation(); $ctrl.deleteBase(base);">Delete</button></li>
+                                </ul>
+                            </div>
+                            <!-- <button  type="button" class="btn btn-default" ng-click="$event.stopPropagation()" ui-sref="app.index.edit({ baseId: base.pk})">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </button>
+                            <button  type="button" class="btn btn-default" ng-click="$event.stopPropagation()" ui-sref="app.index.memorise({ baseId: base.pk})">
+                                <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                            </button>
+                            <button  type="button" class="btn btn-default" ng-click="expand[base.pk] = !expand[base.pk]; $ctrl.deleteBase(base);">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button> -->
+                        </div>
+                    </h4>
+                    <div class="animate-show base-body" ng-show="expand[base.pk]">
+                        <p class="description list-group-item-text">{{base.value.description}}</p>
+                    </div>
+                </a>
+                <a href="" class="base list-group-item" ng-click="$ctrl.addBase()">
+                    <h4 class="base-head list-group-item-heading">Add New Base
+                        <span class="base-head-controls glyphicon glyphicon-plus"></span>
+                    </h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

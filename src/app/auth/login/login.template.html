@@ -1,0 +1,37 @@
+<form id="$ctrl.loginForm" name="$ctrl.loginForm" role="form" novalidate>
+    <div class="form-group" form-group-validation>
+        <label for="username" class="control-label">Username</label>
+        <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="username"
+            placeholder="Username or Email"
+            ng-model="$ctrl.input.username"
+            ng-required="true">
+    </div>
+    <div class="form-group" form-group-validation>
+        <a class="forgot-password pull-right" href="">Forgot password?</a>
+        <label for="password" class="control-label">Password</label>
+        <input
+            type="password"
+            class="form-control"
+            name="password"
+            id="password"
+            placeholder="Password"
+            ng-model="$ctrl.input.password"
+            ng-required="true">
+    </div>
+    <p class="text-danger" ng-if="$ctrl.errorMessage" ng-bind="$ctrl.errorMessage"></p>
+    <div class="checkbox pull-right">
+        <label for="remember-me">
+            <input id="remember-me" name="remember-me" type="checkbox" ng-model="$ctrl.input.rememberMe">Remember Me
+        </label>
+    </div>
+    <button
+        ng-click="$ctrl.submit()" 
+        type="submit" 
+        class="btn btn btn-primary">
+        Log In
+    </button>
+</form>

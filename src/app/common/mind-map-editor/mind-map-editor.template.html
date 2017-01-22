@@ -1,0 +1,27 @@
+<div ng-if class="menu">
+    <div class="btn btn-default" ng-click="new()">New</div>
+    <div class="btn btn-default loadFile">
+        <span>Load File</span>
+        <input id="uploadFile" name="uploadFile" type="file" change-file="load">
+    </div>
+    <div class="downloadWrap">
+        <input class="fileName" type="text" ng-model="fileName">
+        <div class="btn btn-default" ng-click="save()">Save</div>
+        <div id="downloadLinkWrap"></div>
+    </div>
+</div>
+<div class="btn-group pull-right">
+    <div class="btn-group" ng-class="dropDown">
+        <a class="btn btn-default dropdown-toggle" ng-click="dropDown = dropDown ? '' : 'open'">
+                Export As
+                <span class="caret"></span>
+              </a>
+        <ul class="dropdown-menu">
+            <li><a class="btm btn-default " ng-click="export('png')">PNG</a></li>
+            <li><a class="btm btn-default " ng-click="export('jpg')">JPG</a></li>
+            <li><a class="btm btn-default " ng-click="export('pdf')">PDF</a></li>
+            <li><a class="btm btn-default" ng-click="export('svg')">SVG</a></li>
+        </ul>
+    </div>
+</div>
+<div class="mindMap"></div>
