@@ -5,10 +5,10 @@
   
   "scripts": {
     "preinstall": "npm install -g webpack webpack-dev-server typings rimraf",
-    "postinstall": "webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js",
+    "postinstall": "",
+    "start": "webpack-dev-server --colors --config config/webpack.dev.js",
 
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=dev",
     "dev": "webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js",
     "deploy": "npm i && webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js --port 8000 --host 0.0.0.0",
     "deploy-heroku": "webpack-dev-server --colors --config config/webpack.dev.js",
