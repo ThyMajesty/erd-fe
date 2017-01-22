@@ -56,9 +56,8 @@
     "rx": "^4.1.0",
     "save-svg-as-png": "^1.0.3",
     "ui-router-route-to-components": "^0.1.0",
-    "ui-select": "^0.19.6"
-  },
-  "devDependencies": {
+    "ui-select": "^0.19.6",
+  
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-transform-runtime": "^6.15.0",
