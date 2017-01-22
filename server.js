@@ -1,6 +1,10 @@
-var express = require('express');
-var app = express();
+const path = require('path')
+const express = require('express')
 
-app.use(express.static(__dirname + '/build'));
-
-app.listen(process.env.PORT || 3000);
+module.exports = {
+  app: function () {
+    const app = express()
+    app.use(express.static(__dirname + '/build'));
+    return app
+  }
+}
