@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js",
     "dev": "webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js",
     "deploy": "npm i && webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js --port 8000 --host 0.0.0.0",
-    "deploy-heroku": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --config config/webpack.dev.js --port process.env.PORT",
+    "deploy-heroku": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --config config/webpack.dev.js --port process.env.$PORT",
     "build-dev": "set NODE_ENV=dev && webpack",
     "build-static": "set NODE_ENV=static && webpack",
     "build-static-watch": "set NODE_ENV=static && webpack --watch",
