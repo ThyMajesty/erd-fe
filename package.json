@@ -19,7 +19,7 @@
     "presets": [
       "es2015"
     ]
-  },
+  }, 
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ThyMajesty/SpecialistDiploma.git"
