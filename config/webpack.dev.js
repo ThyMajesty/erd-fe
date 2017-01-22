@@ -6,7 +6,7 @@ module.exports = webpackMerge(commonConfig, {
         proxy: {
             '/v1': {
                 target: 'http://localhost',
-                secure: false,
+                secure: true,
                 ws: true,
                 pathRewrite: {"^/v1" : ""}
             },
