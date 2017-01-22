@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "preinstall": "npm i",
-    "postinstall": "webpack --colors --config config/webpack.dev.js",
+    "postinstall": "npm install && webpack --colors --config config/webpack.dev.js",
     "start": "node app.js",
+
+
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js",
     "deploy": "npm i && webpack-dev-server --progress --colors --inline --hot --config config/webpack.dev.js --port 8000 --host 0.0.0.0",
