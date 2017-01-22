@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "preinstall": "npm i",
+    "preinstall": "",
     "postinstall": "webpack --colors --config config/webpack.dev.js",
     "start": "node app.js",
 
