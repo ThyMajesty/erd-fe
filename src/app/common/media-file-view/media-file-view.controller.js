@@ -26,7 +26,6 @@ export class MediaFileViewController {
         this.filesToUploadAndPreview = [];
 
         $scope.$watch(() => this.filesToUploadAndPreview, () => {
-            console.log(this.filesToUploadAndPreview);
             this.selectFiles(this.filesToUploadAndPreview);
         });
     }

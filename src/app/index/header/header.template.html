@@ -6,13 +6,14 @@
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">
                 <li class="user-menu">
-                    <a ui-sref="app.index.user($ctrl.$storage.user)">
+                    <a ng-if="$ctrl.$storage.user" ui-sref="app.index.user($ctrl.$storage.user)">
                         <span class="user-name col-xs-12 col-md-12 col-lg-12 col-sm-12">
-                            <div class="col-xs-4 col-md-4 col-lg-4 col-sm-4">
-                                <img ng-if="$ctrl.$storage.user.value.image" ng-src="{{$ctrl.$storage.user.value.image}}" class="avatar" alt="Cinque Terre">
-                            </div>
-                            <span class="first col-xs-8 col-md-8 col-lg-8 col-sm-8" ng-bind="$ctrl.$storage.user.value.name"></span>
+                            <img ng-if="$ctrl.$storage.user.value.image" ng-src="{{$ctrl.$storage.user.value.image}}" class="avatar" alt="Cinque Terre">
+                            {{$ctrl.$storage.user.value.name}}
                         </span>
+                    </a>
+                    <a ng-if="!$ctrl.$storage.user" ui-sref="app.auth">
+                    <span class="user-name col-xs-12 col-md-12 col-lg-12 col-sm-12">Not Authorised</span>
                     </a>
                 </li>
             </ul>

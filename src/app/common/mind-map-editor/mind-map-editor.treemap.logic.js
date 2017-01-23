@@ -56,7 +56,7 @@ export class MindMapEditorTreeMapLogic {
                 .attr("height", function(d) {
                     return d.dy - 1; })
                 .style("fill", function(d) {
-                    return color(d.parent.name); });
+                    return color(d.parent ? d.parent.name : d.name); });
 
             cell.append("svg:text")
                 .attr("x", function(d) {
