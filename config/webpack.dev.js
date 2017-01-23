@@ -9,7 +9,7 @@ module.exports = webpackMerge(commonConfig, {
         port: process.env.PORT || 8080,
         proxy: {
             '/v1': {
-                target: 'http://localhost',
+                target: 'http://djerd.mooo.com',
                 secure: false,
                 ws: true,
                 pathRewrite: {"^/v1" : ""}
