@@ -1,10 +1,10 @@
 export function AppConfig($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider, $sceProvider, $locationProvider) {
 
-    $locationProvider.html5Mode({
+    /*$locationProvider.html5Mode({
         enabled: true,
         requireBase: false
     });
-
+*/
     console.log($locationProvider)
 
     $sceProvider.enabled(false);
