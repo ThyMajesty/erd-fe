@@ -6,15 +6,21 @@
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav navbar-right">
                 <li class="user-menu">
-                    <a ng-if="$ctrl.$storage.user" ui-sref="app.index.user($ctrl.$storage.user)">
-                        <span class="user-name col-xs-12 col-md-12 col-lg-12 col-sm-12">
-                            <img ng-if="$ctrl.$storage.user.value.image" ng-src="{{$ctrl.$storage.user.value.image}}" class="avatar" alt="Cinque Terre">
-                            {{$ctrl.$storage.user.value.name}}
-                        </span>
-                    </a>
-                    <a ng-if="!$ctrl.$storage.user" ui-sref="app.auth">
-                    <span class="user-name col-xs-12 col-md-12 col-lg-12 col-sm-12">Not Authorised</span>
-                    </a>
+                    <div class="btn-group">
+                        <a class="btn btn-link" ng-if="$ctrl.$storage.user" ui-sref="app.index.user($ctrl.$storage.user)">
+                                <img ng-if="$ctrl.$storage.user.value.image" ng-src="{{$ctrl.$storage.user.value.image}}" class="avatar" alt="Cinque Terre">
+                                {{$ctrl.$storage.user.value.name}}
+                        </a>
+                        <a class="btn btn-link" ng-if="!$ctrl.$storage.user" ui-sref="app.auth">
+                            Not Authorised
+                        </a>
+                        <a class="btn btn-link" ng-if="!$ctrl.$storage.user" ui-sref="app.auth">
+                            Log In
+                        </a>
+                        <a class="btn btn-link" ng-if="$ctrl.$storage.user" ui-sref="app.auth">
+                            Log Out
+                        </a>
+                    <div class="btn-group">
                 </li>
             </ul>
         </div>
