@@ -1,30 +1,32 @@
 <div class="container">
-    <div class="auth row">
-        <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6">
-            <div class="well">
-                <legend ng-if>Please Log In, or <a href="#">Sign Up</a></legend>
-                <ul class="nav nav-tabs">
-                    <li 
-                        role="button"
-                        ui-sref="app.auth.login" 
-                        ui-sref-active="active"><a>Log In</a></li>
-                    <li 
-                        role="button"
-                        ui-sref="app.auth.signin" 
-                        ui-sref-active="active"><a>Sing In</a></li>
-                </ul>
-                
-                <div class="row">
-                    <div class="col-lg-4 col-xs-4 col-sm-4 col-md-4" ng-repeat="be in $ctrl.backends">
-                        <a ng-href="{{be.link}}" class="btn btn-lg btn-info btn-block" ng-class="be.backend">{{be.backend}}</a>
+    <div class="auth col-lg-6 col-lg-offset-3">
+        <!-- <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6"> -->
+        <div class="well">
+            <legend ng-if>Please Log In, or <a href="#">Sign Up</a></legend>
+            <ul class="nav nav-tabs col-sm-12 col-sm-12 col-sm-12 col-sm-12">
+                <li class="col-sm-6 col-sm-6 col-sm-6 col-sm-6 tab-login" role="button" ui-sref="app.auth.login" ui-sref-active="active"><a>Log In</a></li>
+                <li class="col-sm-6 col-sm-6 col-sm-6 col-sm-6 tab-login" role="button" ui-sref="app.auth.signin" ui-sref-active="active"><a>Sing In</a></li>
+            </ul>
+            <div class="row">
+            <!-- <div class="col-lg-4 col-xs-4 col-sm-4 col-md-4" ng-repeat="be in $ctrl.backends"> -->
+            
+                <div class="col-sm-4 col-sm-4 col-sm-4 col-sm-4" ng-repeat="be in $ctrl.backends" >
+                    <div class="btn-group">
+                        <a ng-href="{{be.link}}" class="btn btn-social btn-{{be.backend}}">
+                            <span class="fa fa-{{be.backend}}"></span>
+                            <span >{{be.backend}}</span>
+                        </a>
                     </div>
                 </div>
-                <div class="login-or">
-                    <hr class="hr-or">
-                    <span class="span-or">or</span>
-                </div>
-                <div ui-view></div>
+
+            </div> 
+            <!-- </div> -->
+            <div class="login-or">
+                <hr class="hr-or">
+                <span class="span-or">or</span>
             </div>
+            <div ui-view></div>
         </div>
+        <!-- </div> -->
     </div>
 </div>
