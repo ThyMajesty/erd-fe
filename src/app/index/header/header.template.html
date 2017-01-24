@@ -17,7 +17,7 @@
                         <a class="btn btn-link" ng-if="!$ctrl.$storage.user" ui-sref="app.auth">
                             Log In
                         </a>
-                        <a class="btn btn-link" ng-if="$ctrl.$storage.user" ui-sref="app.auth">
+                        <a class="btn btn-link" ng-if="$ctrl.$storage.user" ng-click="$ctrl.logOut()">
                             Log Out
                         </a>
                     <div class="btn-group">
