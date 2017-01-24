@@ -4,8 +4,9 @@
             <h1 id="navbar">Dashboard</h1>
         </div>
         <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
-            <div class="list-group bases">
-                <a class="base list-group-item" ng-click="expand[base.pk] = !expand[base.pk]" ng-repeat="base in $ctrl.data.bases">
+            <div class="list-group bases" ng-repeat="(key,owner) in $ctrl.data">
+                <span>Bases created by {{owner.owner.isMe ? 'me' : owner.owner.name}}</span>
+                <a class="base list-group-item" ng-click="expand[base.pk] = !expand[base.pk]" ng-repeat="base in owner.bases">
                     <h4 class="base-head list-group-item-heading">{{base.value.name}}
                         <div class="base-head-controls">
                             <div class="btn-group" ng-class="dropDown">
@@ -17,6 +18,7 @@
                                     <li><button class="btn btn-default" ng-click="$event.stopPropagation();" ui-sref="app.index.edit({ baseId: base.pk})">Edit</button></li>
                                     <li><button class="btn btn-default" ng-click="$event.stopPropagation(); $ctrl.memorize(base);">Memorise</button></li>
                                     <li><button class="btn btn-default" ng-click="$event.stopPropagation(); $ctrl.deleteBase(base);">Delete</button></li>
+                                    <li><button class="btn btn-default" ng-click="$event.stopPropagation(); $ctrl.shareBase(base);">Share</button></li>
                                 </ul>
                             </div>
                             <!-- <button  type="button" class="btn btn-default" ng-click="$event.stopPropagation()" ui-sref="app.index.edit({ baseId: base.pk})">
@@ -46,7 +48,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="" class="base list-group-item" ng-click="$ctrl.addBase()">
+                <a ng-if="owner.owner.isMe" href="" class="base list-group-item" ng-click="$ctrl.addBase()">
                     <h4 class="base-head list-group-item-heading">Add New Base
                         <span class="base-head-controls glyphicon glyphicon-plus"></span>
                     </h4>

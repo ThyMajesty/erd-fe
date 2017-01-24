@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12" ng-if="$ctrl.base">
+        <div class="page-header">
+            <h3 ng-if id="navbar">Base created by {{$ctrl.base.value.name}}</h3>
+            <ul class="nav nav-tabs" ng-init="activeTab='MindMapTree'">
+                <li class="{{activeTab == 'MindMapTree' ? 'active' : ''}}"><a href="" ng-click="activeTab = 'MindMapTree'">Mind Map Tree</a></li>
+                <li class="{{activeTab == 'MindMapTreeMap' ? 'active' : ''}}"><a href="" ng-click="activeTab = 'MindMapTreeMap'">Mind Map Tree Map</a></li>
+                <li class="{{activeTab == 'GeneralInfo' ? 'active' : ''}}"><a href="" ng-click="activeTab = 'GeneralInfo'">General Info</a></li>
+            </ul>
+            
+        </div>
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a href="" class="btn btn-default" ng-click="$ctrl.saveToDashboard()">Save to my Dashboard</a>
+            </div>
+            <div class="btn-group">
+                <div class="btn-group">
+                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Export As
+                <span class="caret"></span>
+              </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Dropdown link</a></li>
+                        <li><a href="#">Dropdown link</a></li>
+                        <li><a href="#">Dropdown link</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="activeTab == 'MindMapTree'" class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+            <mind-map-editor type="'tree'" config="{readonly: true}" base="$ctrl.base"></mind-map-editor>
+        </div>
+        <div ng-if="activeTab == 'MindMapTreeMap'" class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+            <mind-map-editor type="'treemap'" config="{readonly: true}" base="$ctrl.base"></mind-map-editor>
+        </div>
+        <div ng-if="activeTab == 'GeneralInfo'" class="container col-lg-12 col-xs-12 col-sm-12 col-md-12">
+            <form name="$ctrl.viewBaseForm" class="form-horizontal" novalidate>
+                <fieldset>
+                    <div class="form-group" form-group-validation>
+                        <label for="name" class="col-lg-2 col-xs-2 col-sm-2 col-md-2 control-label">Name</label>
+                        <div class="col-lg-10 col-xs-10 col-sm-10 col-md-10">
+                            <input 
+                                type="text" 
+                                name="name"
+                                placeholder="Name"
+                                class="form-control"
+                                id="name"
+                                ng-model="$ctrl.base.value.name"
+                                ng-required="true"
+                                >
+                        </div>
+                    </div>
+                    <div class="form-group" form-group-validation>
+                        <label for="description" class="col-lg-2 col-xs-2 col-sm-2 col-md-2 control-label">Description</label>
+                        <div class="col-lg-10 col-xs-10 col-sm-10 col-md-10">
+                            <textarea 
+                                name="description" 
+                                placeholder="Description"
+                                class="form-control" 
+                                id="description" 
+                                ng-model="$ctrl.base.value.description" 
+                                ng-required="true"
+                            ></textarea> 
+                        </div>
+                    </div>
+                    <fieldset>
+                <legend >Attachments
+                    <i class="glyphicon pull-right" 
+                        ng-class="{'glyphicon-chevron-down': $ctrl.inputType.attachments, 'glyphicon-chevron-up': !$ctrl.inputType.attachments}"
+                        ng-click="$ctrl.inputType.attachments = !$ctrl.inputType.attachments"></i>
+                </legend>
+                <div class="animate-show col-lg-10 col-xs-10 col-sm-10 col-md-10 col-lg-offset-2 col-sm-offset-2 col-md-offset-2 col-xs-offset-2" ng-show="$ctrl.inputType.attachments">
+                    <div id="mediaHere" class="custom-preview media-container"></div>
+                    <media-file-view on-change="$ctrl.filesChanged(files)" files="$ctrl.base.value.files" ng-model="model" preview-class="img-thumbnail" preview-container="mediaHere" multiple=""></media-file-view>
+                </div>
+            </fieldset>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-xs-10 col-sm-10 col-md-10 col-lg-offset-2 col-sm-offset-2 col-md-offset-2 col-xs-offset-2">
+                            <button type="submit" class="btn btn-primary" ng-click="$ctrl.saveChanges()">Save Changes</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

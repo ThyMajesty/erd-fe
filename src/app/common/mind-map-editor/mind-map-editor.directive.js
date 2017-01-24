@@ -8,13 +8,15 @@ export function MindMapEditorDirective(addEditEntityModal, BaseApi) {
         restrict: 'E',
         scope: {
             base: '=',
-            type: '='
+            type: '=',
+            config: '='
         },
         template: template,
         link
     };
 
     function link(scope, element, attrs, ctrl) {
+        console.log(scope.config)
 
         const mindMapElement = angular.element(element[0].getElementsByClassName("mindMap"))[0];
         const dataApi = {
@@ -34,7 +36,7 @@ export function MindMapEditorDirective(addEditEntityModal, BaseApi) {
         } 
 
         if (scope.type == 'tree') {
-            mindMapEditor = new MindMapEditorTreeLogic(mindMapElement); //mindMapElement, treeData, settings
+            mindMapEditor = new MindMapEditorTreeLogic(mindMapElement, scope.base.tree, scope.config); //mindMapElement, treeData, settings
             scope.treeData = mindMapEditor.setTreeData(scope.base.tree);
             mindMapEditor.onChange(changedTreeData);
             mindMapEditor.setDataApi(dataApi);
@@ -43,6 +45,7 @@ export function MindMapEditorDirective(addEditEntityModal, BaseApi) {
             mindMapEditor = new MindMapEditorTreeMapLogic(mindMapElement, angular.copy(scope.base.tree)); //mindMapElement, treeData, settings
         }
 
+            mindMapEditor.setConfig(scope.config);
 
         //console.log(scope.base.tree)
 

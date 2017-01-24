@@ -16,12 +16,14 @@
                         <div 
                             name="avatar"
                             class="avatar col-lg-10 col-xs-10 col-sm-10 col-md-10" 
-                            ngf-drop
-                            ngf-drag-over-class="'dragover'"
-                            ngf-select="$ctrl.upload($file, $invalidFiles)"
-                            ng-model="$ctrl.picFile" 
-                            accept="image/*">
-                            <img ng-src="{{$ctrl.input.value.image}}" />
+                            >
+                            <img
+                                ngf-drop
+                                ngf-drag-over-class="'dragover'"
+                                ngf-select="$ctrl.upload($file, $invalidFiles)"
+                                ng-model="$ctrl.picFile" 
+                                accept="image/*" 
+                                ng-src="{{$ctrl.input.value.image || 'data:image/jpeg;base64,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'}}" />
                         </div>
                     </div>
                 </fieldset>

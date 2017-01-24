@@ -1,0 +1,24 @@
+<div class="modal-content share-base">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$ctrl.cancel()" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Share Base</h4>
+    </div>
+    <div class="modal-body">
+        <!-- <span class="col-md-12 col-lg-12 col-xs-12 col-sm-12"> -->
+            <div class="form-group">
+                <label for="share" class="control-label">Give this link to other user</label>
+                <div class="input-group">
+                    <span class="input-group-addon">Link: </span>
+                    <input id="share" type="text" class="form-control" ng-model="$ctrl.shareLink" readonly="readonly" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-copy" type="button" data-clipboard-target="#share" alt="Copy to clipboard"><i class="glyphicon glyphicon-copy" alt="Copy to clipboard"></i></button>
+                    </span>
+                </div>
+            </div>
+        <!-- </span> -->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$ctrl.cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.confirm()">Copy Link</button>
+    </div>
+</div>

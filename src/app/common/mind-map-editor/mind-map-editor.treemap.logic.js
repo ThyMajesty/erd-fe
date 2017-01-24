@@ -4,6 +4,7 @@ export class MindMapEditorTreeMapLogic {
 
     constructor(mindMapElement, treeData, settings) {
         console.log(mindMapElement, treeData, settings)
+        this.config = {};
         this.mindMapElement = mindMapElement;
 
         this.width = mindMapElement.clientWidth ;
@@ -128,6 +129,11 @@ export class MindMapEditorTreeMapLogic {
 
 
 
+    }
+
+
+    setConfig(config) {
+        this.config = config;
     }
 
     /*onChange(cb) {

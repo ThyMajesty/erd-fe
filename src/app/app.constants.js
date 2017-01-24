@@ -22,6 +22,7 @@ const API = {
     fileUpload: `${domain}upload/`,
     filesUpload: `${domain}uploads/`,
     fileGet: `${domain}media/`,
+    saveDB: `${domain}api/save/`,
 };
 
 export { API }

@@ -24,6 +24,7 @@ require('angular-media-preview/dist/angular-media-preview.js');
 import 'rx';
 import d3 from 'd3';
 
+require('clipboard')
 require('domurl')
 require('jspdf')
 

@@ -59,10 +59,11 @@ const style = `
             `;
 export class MindMapEditorTreeLogic {
 
-    constructor(mindMapElement, treeData, settings) {
+    constructor(mindMapElement, treeData, config) {
         this.mindMapElement = mindMapElement;
-        this.width = mindMapElement.clientWidth - 120,
+        this.width = mindMapElement.clientWidth - 120;
         this.height = mindMapElement.clientHeight - 60;
+        this.config = config || {};
 
         this.treeData = treeData || {};
         this.tree = d3.layout.tree().size([this.height, this.width]);
@@ -72,8 +73,8 @@ export class MindMapEditorTreeLogic {
         });
 
         this.zoom = d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", () => {
-                this.main.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-            })
+            this.main.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+        })
 
         this.editorContainer = d3.select(this.mindMapElement);
         this.editorSvg = this.editorContainer
@@ -106,13 +107,13 @@ export class MindMapEditorTreeLogic {
             .attr("transform", "translate(" + 80 + "," + 20 + ")");
 
 
-        this.settings = settings || {
+        this.settings =  {
             duration: 500
         };
 
         window.addEventListener("resize", () => {
             this.width = this.editorSvg.style("width").split('px')[0] - 120,
-            this.height = this.editorSvg.style("height").split('px')[0] - 60;
+                this.height = this.editorSvg.style("height").split('px')[0] - 60;
             this.tree = d3.layout.tree().size([this.height, this.width]);
             this.update(this.tree)
         });
@@ -121,7 +122,7 @@ export class MindMapEditorTreeLogic {
     }
 
 
-    export(format, scale) {
+    export (format, scale) {
         let resize = (n) => {
             let cp = d3.select(this.editorSvg.node().cloneNode(true)),
                 width = this.width,
@@ -132,13 +133,13 @@ export class MindMapEditorTreeLogic {
                 .attr("height", height)
                 .style("width", width + 'px')
                 .style("height", height + 'px')
-            return {cp, width, height};
+            return { cp, width, height };
         }
         let save = (dataBlob, filesize) => {
-                saveAs.saveAs(dataBlob, this.treeData.name + '.' + format); // FileSaver.js function
+            saveAs.saveAs(dataBlob, this.treeData.name + '.' + format); // FileSaver.js function
         }
 
-        if(format == 'svg') {
+        if (format == 'svg') {
             try {
                 var isFileSaverSupported = !!new Blob();
             } catch (e) {
@@ -151,23 +152,23 @@ export class MindMapEditorTreeLogic {
                 .attr("xmlns", "http://www.w3.org/2000/svg")
                 .node().parentNode.innerHTML;
 
-            var blob = new Blob([html], {type: "image/svg+xml"});
+            var blob = new Blob([html], { type: "image/svg+xml" });
             saveAs.saveAs(blob, this.treeData.name + '.' + format);
-        } else if(format == 'pdf') {
+        } else if (format == 'pdf') {
             svg_to_pdf(resize(scale).cp.node(), (pdf) => {
-                download_pdf(this.treeData.name + + '.pdf', pdf.output('dataurlstring'));
+                download_pdf(this.treeData.name + +'.pdf', pdf.output('dataurlstring'));
             });
         } else {
             var svgString = getSVGString(resize(scale).cp.node(), this.width, this.height, 8);
-            svgString2Image(svgString, 2*this.width, 2*this.height, format, save ); // passes Blob and filesize String to the callback
+            svgString2Image(svgString, 2 * this.width, 2 * this.height, format, save); // passes Blob and filesize String to the callback
         }
-        
 
-        function getSVGString( svgNode) {
+
+        function getSVGString(svgNode) {
             svgNode.setAttribute('xlink', 'http://www.w3.org/1999/xlink');
-            var cssStyleText = getCSSStyles( svgNode );
+            var cssStyleText = getCSSStyles(svgNode);
 
-            appendCSS( cssStyleText, svgNode )
+            appendCSS(cssStyleText, svgNode)
 
             var serializer = new XMLSerializer();
             var svgString = serializer.serializeToString(svgNode);
@@ -176,67 +177,67 @@ export class MindMapEditorTreeLogic {
 
             return svgString;
 
-            function getCSSStyles( parentElement ) {
+            function getCSSStyles(parentElement) {
                 var selectorTextArr = [];
 
                 // Add Parent element Id and Classes to the list
-                selectorTextArr.push( '#'+parentElement.id );
+                selectorTextArr.push('#' + parentElement.id);
                 for (var c = 0; c < parentElement.classList.length; c++)
-                        if ( !contains('.'+parentElement.classList[c], selectorTextArr) )
-                            selectorTextArr.push( '.'+parentElement.classList[c] );
+                    if (!contains('.' + parentElement.classList[c], selectorTextArr))
+                        selectorTextArr.push('.' + parentElement.classList[c]);
 
-                // Add Children element Ids and Classes to the list
+                    // Add Children element Ids and Classes to the list
                 var nodes = parentElement.getElementsByTagName("*");
                 for (var i = 0; i < nodes.length; i++) {
                     var id = nodes[i].id;
-                    if ( !contains('#'+id, selectorTextArr) )
-                        selectorTextArr.push( '#'+id );
+                    if (!contains('#' + id, selectorTextArr))
+                        selectorTextArr.push('#' + id);
 
                     var classes = nodes[i].classList;
                     for (var c = 0; c < classes.length; c++)
-                        if ( !contains('.'+classes[c], selectorTextArr) )
-                            selectorTextArr.push( '.'+classes[c] );
+                        if (!contains('.' + classes[c], selectorTextArr))
+                            selectorTextArr.push('.' + classes[c]);
                 }
 
                 // Extract CSS Rules
                 var extractedCSSText = "";
                 for (var i = 0; i < document.styleSheets.length; i++) {
                     var s = document.styleSheets[i];
-                    
+
                     try {
-                        if(!s.cssRules) continue;
-                    } catch( e ) {
-                            if(e.name !== 'SecurityError') throw e; // for Firefox
-                            continue;
-                        }
+                        if (!s.cssRules) continue;
+                    } catch (e) {
+                        if (e.name !== 'SecurityError') throw e; // for Firefox
+                        continue;
+                    }
 
                     var cssRules = s.cssRules;
                     for (var r = 0; r < cssRules.length; r++) {
-                        if ( contains( cssRules[r].selectorText, selectorTextArr ) )
+                        if (contains(cssRules[r].selectorText, selectorTextArr))
                             extractedCSSText += cssRules[r].cssText;
                     }
                 }
                 return extractedCSSText
 
-                function contains(str,arr) {
-                    return arr.indexOf( str ) === -1 ? false : true;
+                function contains(str, arr) {
+                    return arr.indexOf(str) === -1 ? false : true;
                 }
 
             }
 
-            function appendCSS( cssText, element ) {
+            function appendCSS(cssText, element) {
                 var styleElement = document.createElement("style");
-                styleElement.setAttribute("type","text/css"); 
+                styleElement.setAttribute("type", "text/css");
                 styleElement.innerHTML = cssText;
                 var refNode = element.hasChildNodes() ? element.children[0] : null;
-                element.insertBefore( styleElement, refNode );
+                element.insertBefore(styleElement, refNode);
             }
         }
 
 
-        function svgString2Image( svgString, width, height, format, callback ) {
+        function svgString2Image(svgString, width, height, format, callback) {
             var format = format ? format : 'png';
-            var imgsrc = 'data:image/svg+xml;base64,'+ btoa( unescape( encodeURIComponent( svgString ) ) ); // Convert SVG string to dataurl
+            var imgsrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString))); // Convert SVG string to dataurl
 
             var canvas = document.createElement("canvas");
             var context = canvas.getContext("2d");
@@ -247,12 +248,12 @@ export class MindMapEditorTreeLogic {
 
             var image = new Image;
             image.onload = function() {
-                context.clearRect ( 0, 0, width, height );
+                context.clearRect(0, 0, width, height);
                 context.drawImage(image, 0, 0, width, height);
 
-                canvas.toBlob( function(blob) {
-                    var filesize = Math.round( blob.length/1024 ) + ' KB';
-                    if ( callback ) callback( blob, filesize );
+                canvas.toBlob(function(blob) {
+                    var filesize = Math.round(blob.length / 1024) + ' KB';
+                    if (callback) callback(blob, filesize);
                 });
             };
 
@@ -260,7 +261,7 @@ export class MindMapEditorTreeLogic {
         }
 
         function svg_to_pdf(svg, callback) {
-             saveSvgAsPng.svgAsDataUri(svg, {}, function(svg_uri) {
+            saveSvgAsPng.svgAsDataUri(svg, {}, function(svg_uri) {
                 var image = document.createElement('img');
 
                 image.src = svg_uri;
@@ -272,11 +273,11 @@ export class MindMapEditorTreeLogic {
 
                     canvas.width = image.height + image.width;
                     canvas.height = image.height + image.width;
-                    if(image.height < image.width){
-                        context.rotate((90)*Math.PI/180);
-                    } 
+                    if (image.height < image.width) {
+                        context.rotate((90) * Math.PI / 180);
+                    }
 
-                    
+
 
                     //context.translate(canvas.width/2,canvas.height/2);
                     //context.rotate((90)*Math.PI/180);
@@ -290,7 +291,7 @@ export class MindMapEditorTreeLogic {
             });
         }
 
-        
+
         function download_pdf(name, dataUriString) {
             var link = document.createElement('a');
             link.addEventListener('click', function(ev) {
@@ -302,7 +303,12 @@ export class MindMapEditorTreeLogic {
             link.click();
         }
 
-        
+
+    }
+
+    setConfig(config) {
+        this.config = config || this.config;
+        this.update(this.treeData, true);
     }
 
     onChange(cb) {
@@ -421,7 +427,7 @@ export class MindMapEditorTreeLogic {
             });
 
         // Enter any new links at the parent's previous position.
-        
+
 
         link.enter()
             .insert("svg:path", "g")
@@ -448,7 +454,7 @@ export class MindMapEditorTreeLogic {
             .attr("text-anchor", "middle")
             .style('font-size', '14px')
 
-            .append("textPath")
+        .append("textPath")
             .attr('startOffset', '50%')
             .text((d) => {
                 return d.target.connection.name + (d.target.subConnection && d.target.subConnection.name || '');
@@ -507,62 +513,65 @@ export class MindMapEditorTreeLogic {
             })
             .style("fill-opacity", 1e-6);
 
-        // Add btn icon
-        nodeEnter.append("svg:path")
-            .attr("d", "M12 24c-6.627 0-12-5.372-12-12s5.373-12 12-12c6.628 0 12 5.372 12 12s-5.372 12-12 12zM12 3c-4.97 0-9 4.030-9 9s4.030 9 9 9c4.971 0 9-4.030 9-9s-4.029-9-9-9zM13.5 18h-3v-4.5h-4.5v-3h4.5v-4.5h3v4.5h4.5v3h-4.5v4.5z")
-            .attr("transform", (d) => {
-                var offset = (d.children || d._children) ? -70 : 0;
-                return "translate(" + offset + "," + 10 + ")";
-            })
-            .classed("function-btn add", true);
+        console.log(this.config.readonly)
+        if (!this.config.readonly) {
+            // Add btn icon
+            nodeEnter.append("svg:path")
+                .attr("d", "M12 24c-6.627 0-12-5.372-12-12s5.373-12 12-12c6.628 0 12 5.372 12 12s-5.372 12-12 12zM12 3c-4.97 0-9 4.030-9 9s4.030 9 9 9c4.971 0 9-4.030 9-9s-4.029-9-9-9zM13.5 18h-3v-4.5h-4.5v-3h4.5v-4.5h3v4.5h4.5v3h-4.5v4.5z")
+                .attr("transform", (d) => {
+                    var offset = (d.children || d._children) ? -70 : 0;
+                    return "translate(" + offset + "," + 10 + ")";
+                })
+                .classed("function-btn add", true);
 
-        nodeEnter.append("svg:rect")
-            .classed("function-bg add", true)
-            .attr("width", "24px")
-            .attr("height", "24px")
-            .attr("transform", (d) => {
-                var offset = (d.children || d._children) ? -70 : 0;
-                return "translate(" + offset + "," + 10 + ")";
-            })
-            .on("click", this.addNewNode.bind(this));
+            nodeEnter.append("svg:rect")
+                .classed("function-bg add", true)
+                .attr("width", "24px")
+                .attr("height", "24px")
+                .attr("transform", (d) => {
+                    var offset = (d.children || d._children) ? -70 : 0;
+                    return "translate(" + offset + "," + 10 + ")";
+                })
+                .on("click", this.addNewNode.bind(this));
 
-        // Remove btn icon
-        nodeEnter.append("svg:path")
-            .attr("d", "M3.514 20.485c-4.686-4.686-4.686-12.284 0-16.97 4.688-4.686 12.284-4.686 16.972 0 4.686 4.686 4.686 12.284 0 16.97-4.688 4.687-12.284 4.687-16.972 0zM18.365 5.636c-3.516-3.515-9.214-3.515-12.728 0-3.516 3.515-3.516 9.213 0 12.728 3.514 3.515 9.213 3.515 12.728 0 3.514-3.515 3.514-9.213 0-12.728zM8.818 17.303l-2.121-2.122 3.182-3.182-3.182-3.182 2.121-2.122 3.182 3.182 3.182-3.182 2.121 2.122-3.182 3.182 3.182 3.182-2.121 2.122-3.182-3.182-3.182 3.182z")
-            .attr("transform", (d) => {
-                var offset = (d.children || d._children) ? -40 : 30;
-                return "translate(" + offset + "," + 10 + ")";
-            })
-            .classed("function-btn remove", true);
+            // Remove btn icon
+            nodeEnter.append("svg:path")
+                .attr("d", "M3.514 20.485c-4.686-4.686-4.686-12.284 0-16.97 4.688-4.686 12.284-4.686 16.972 0 4.686 4.686 4.686 12.284 0 16.97-4.688 4.687-12.284 4.687-16.972 0zM18.365 5.636c-3.516-3.515-9.214-3.515-12.728 0-3.516 3.515-3.516 9.213 0 12.728 3.514 3.515 9.213 3.515 12.728 0 3.514-3.515 3.514-9.213 0-12.728zM8.818 17.303l-2.121-2.122 3.182-3.182-3.182-3.182 2.121-2.122 3.182 3.182 3.182-3.182 2.121 2.122-3.182 3.182 3.182 3.182-2.121 2.122-3.182-3.182-3.182 3.182z")
+                .attr("transform", (d) => {
+                    var offset = (d.children || d._children) ? -40 : 30;
+                    return "translate(" + offset + "," + 10 + ")";
+                })
+                .classed("function-btn remove", true);
 
-        nodeEnter.append("svg:rect")
-            .classed("function-bg remove", true)
-            .attr("width", "24px")
-            .attr("height", "24px")
-            .attr("transform", (d) => {
-                var offset = (d.children || d._children) ? -40 : 30;
-                return "translate(" + offset + "," + 10 + ")";
-            })
-            .on("click", this.removeNode.bind(this));
+            nodeEnter.append("svg:rect")
+                .classed("function-bg remove", true)
+                .attr("width", "24px")
+                .attr("height", "24px")
+                .attr("transform", (d) => {
+                    var offset = (d.children || d._children) ? -40 : 30;
+                    return "translate(" + offset + "," + 10 + ")";
+                })
+                .on("click", this.removeNode.bind(this));
 
-        // Edit btn
-        nodeEnter.append("svg:path")
-            .attr("d", "M20.307 1.998c-0.839-0.462-3.15-1.601-4.658-1.913-1.566-0.325-3.897 5.79-4.638 5.817-1.202 0.043-0.146-4.175 0.996-5.902-1.782 1.19-4.948 2.788-5.689 4.625-1.432 3.551 2.654 9.942 0.474 10.309-0.68 0.114-2.562-4.407-3.051-5.787-1.381 2.64-0.341 5.111 0.801 8.198v0.192c-0.044 0.167-0.082 0.327-0.121 0.489h0.121v4.48c0 0.825 0.668 1.493 1.493 1.493 0.825 0 1.493-0.668 1.493-1.493v-4.527c2.787-0.314 4.098 0.6 6.007-3.020-1.165 0.482-3.491-0.987-3.009-1.68 0.97-1.396 4.935 0.079 7.462-4.211-4 1.066-4.473-0.462-4.511-1.019-0.080-1.154 3.999-0.542 5.858-2.146 1.078-0.93 2.37-3.133 0.97-3.905z")
-            .attr("transform", (d) => {
-                var offset = (d.children || d._children) ? -10 : 60;
-                return "translate(" + offset + "," + 10 + ")";
-            })
-            .classed("function-btn edit", true);
+            // Edit btn
+            nodeEnter.append("svg:path")
+                .attr("d", "M20.307 1.998c-0.839-0.462-3.15-1.601-4.658-1.913-1.566-0.325-3.897 5.79-4.638 5.817-1.202 0.043-0.146-4.175 0.996-5.902-1.782 1.19-4.948 2.788-5.689 4.625-1.432 3.551 2.654 9.942 0.474 10.309-0.68 0.114-2.562-4.407-3.051-5.787-1.381 2.64-0.341 5.111 0.801 8.198v0.192c-0.044 0.167-0.082 0.327-0.121 0.489h0.121v4.48c0 0.825 0.668 1.493 1.493 1.493 0.825 0 1.493-0.668 1.493-1.493v-4.527c2.787-0.314 4.098 0.6 6.007-3.020-1.165 0.482-3.491-0.987-3.009-1.68 0.97-1.396 4.935 0.079 7.462-4.211-4 1.066-4.473-0.462-4.511-1.019-0.080-1.154 3.999-0.542 5.858-2.146 1.078-0.93 2.37-3.133 0.97-3.905z")
+                .attr("transform", (d) => {
+                    var offset = (d.children || d._children) ? -10 : 60;
+                    return "translate(" + offset + "," + 10 + ")";
+                })
+                .classed("function-btn edit", true);
 
-        nodeEnter.append("svg:rect")
-            .classed("function-bg edit", true)
-            .attr("width", "24px")
-            .attr("height", "24px")
-            .attr("transform", (d) => {
-                var offset = (d.children || d._children) ? -10 : 60;
-                return "translate(" + offset + "," + 10 + ")";
-            })
-            .on("click", this.editNode.bind(this));
+            nodeEnter.append("svg:rect")
+                .classed("function-bg edit", true)
+                .attr("width", "24px")
+                .attr("height", "24px")
+                .attr("transform", (d) => {
+                    var offset = (d.children || d._children) ? -10 : 60;
+                    return "translate(" + offset + "," + 10 + ")";
+                })
+                .on("click", this.editNode.bind(this));
+        }
     }
 
     addNewNode(d) {
@@ -587,7 +596,7 @@ export class MindMapEditorTreeLogic {
                 this.update(d);
             })
         }
-        
+
     }
 
     removeNode(d) {

@@ -1,5 +1,5 @@
 export class DashboardController {
-    constructor(BaseApi, addEditBaseModal, $state, $timeout) {
+    constructor(BaseApi, addEditBaseModal, shareBaseModal, $state, $timeout, $localStorage) {
 
         this.BaseApi = BaseApi;
         this.data = {};
@@ -7,12 +7,12 @@ export class DashboardController {
 
         this.newBase = null;
         this.addEditBaseModal = addEditBaseModal;
+        this.shareBaseModal = shareBaseModal;
         this.$state = $state;
-
+        this.$localStorage = $localStorage;
+        
         this.BaseApi.getBasesList().then((response) => {
-            this.data = {
-                bases: response.data
-            };
+            this.mapData(response.data);
             this.someUnvalid();
         });
     }
@@ -28,12 +28,42 @@ export class DashboardController {
             if (response === 'confirm') {
                 this.BaseApi.deleteBase(base.pk).then(() => {
                     this.BaseApi.getBasesList().then((response) => {
-                        this.data = {
-                            bases: response.data
-                        };
+                        this.mapData(response.data);
                     });
                 }, () => {});
             }
+        });
+    }
+
+    mapData(data) {
+        this.data = data.reduce((acc, next) => {
+            let owner = next.owner[0][Object.keys(next.owner[0])];
+            next.owner.forEach((el)=>{
+                angular.forEach(el, (value, key) => {
+                    value.pk = key;
+                    if (this.$localStorage.user.pk === value.pk) {
+                        value.isMe = true;
+                    }
+                    if (!acc[key]) {
+                        acc[key] = {
+                            owner: value,
+                            bases: [next]
+                        }
+                    } else {
+                        acc[key].bases.push(next);
+                    }
+                });
+            })
+            return acc;
+        }, {});
+        /*this.data = {
+            bases: data
+        };*/
+    }
+
+    shareBase(base) {
+        this.shareBaseModal().open(base).then((response) => {
+            
         });
     }
 
@@ -45,6 +75,5 @@ export class DashboardController {
             columnWidth: '200',
             percentPosition: true
         }).masonry('layout');
-
     }
 }

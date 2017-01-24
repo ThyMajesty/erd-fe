@@ -55,6 +55,11 @@ export function AppConfig($stateProvider, $urlRouterProvider, $httpProvider, cfp
             url: '/create',
             component: 'editBase',
         })
+        .state('app.index.view', {
+            params: { base: null },
+            url: '/view/:baseId',
+            component: 'viewBase',
+        })
         .state('app.index.memorise', {
             params: { base: null },
             url: '/memorize/:baseId',

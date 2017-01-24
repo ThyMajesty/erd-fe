@@ -27,8 +27,12 @@ export class BaseApi {
     }
 
 
-
-
+    saveForeingBase(pk) {
+        console.log(pk)
+        return this.$http.post(this.API.saveDB, pk).then((response) => {
+            return response;
+        });
+    }
 
     editBase(pk, editedBase) {
         return this.$http.put(this.API.testdb + pk + '/', 

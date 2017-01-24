@@ -77,7 +77,8 @@ module.exports = {
             jsPDF: 'jspdf',
             saveSvgAsPng: 'save-svg-as-png',
             Masonry: 'Masonry',
-            Url: 'domurl'
+            Url: 'domurl',
+            Clipboard: 'clipboard'
         }),
         new HtmlWebpackPlugin({
             title: 'ERD',

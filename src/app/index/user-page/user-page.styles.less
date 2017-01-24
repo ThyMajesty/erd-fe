@@ -14,8 +14,10 @@
 
 user-page {
     .avatar {
+        
         &.dragover {
             img {
+                cursor: all-scroll;
                 opacity: 0.5;
                 border: 3px dashed #DDD;
             }
@@ -28,6 +30,7 @@ user-page {
         //background: #E4E4E4;
         overflow: hidden;
         img {
+            cursor: pointer;
             opacity: 1;
             transition: opacity .25s ease-in-out;
             border: 3px dashed #888;
