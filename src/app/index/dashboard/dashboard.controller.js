@@ -37,7 +37,6 @@ export class DashboardController {
 
     mapData(data) {
         this.data = data.reduce((acc, next) => {
-            let owner = next.owner[0][Object.keys(next.owner[0])];
             next.owner.forEach((el)=>{
                 angular.forEach(el, (value, key) => {
                     value.pk = key;
