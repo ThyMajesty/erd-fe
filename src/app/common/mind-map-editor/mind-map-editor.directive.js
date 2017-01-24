@@ -3,7 +3,7 @@ import styles from './mind-map-editor.styles.less';
 import { MindMapEditorTreeLogic } from './mind-map-editor.tree.logic';
 import { MindMapEditorTreeMapLogic } from './mind-map-editor.treemap.logic';
 
-export function MindMapEditorDirective(addEditEntityModal, BaseApi) {
+export function MindMapEditorDirective(addEditEntityModal, BaseApi, $localStorage) {
     return {
         restrict: 'E',
         scope: {
@@ -47,10 +47,20 @@ export function MindMapEditorDirective(addEditEntityModal, BaseApi) {
 
             mindMapEditor.setConfig(scope.config);
 
-        //console.log(scope.base.tree)
-
+        console.log(scope.base.shared_to.map((el)=> {
+            return el.pk
+        }), $localStorage.user.pk)
         
-
+        if (scope.config.saveToDashboard && scope.base.shared_to.map((el)=> {
+            return el.pk
+        }).indexOf($localStorage.user.pk) == -1) {
+            scope.saveToDashboard = ()=>{BaseApi.saveForeingBase({db: scope.base.id}).then((response) => {
+                console.log(response);
+            });}
+        } else {
+            scope.saveToDashboard = false;
+        }
+        mindMapEditor.setConfig(scope.config);
         scope.export = (format, scale) => {
             format = format || 'png'; 
             scale = scale || 20;

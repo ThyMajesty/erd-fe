@@ -12,6 +12,7 @@
 </div>
 <div class="btn-group pull-right">
     <div class="btn-group" ng-class="dropDown">
+        <a href="" class="btn btn-default" ng-if="saveToDashboard" ng-click="saveToDashboard()">{{saveToDashboard | json}}Save to my Dashboard</a>
         <a class="btn btn-default dropdown-toggle" ng-click="dropDown = dropDown ? '' : 'open'">
                 Export As
                 <span class="caret"></span>

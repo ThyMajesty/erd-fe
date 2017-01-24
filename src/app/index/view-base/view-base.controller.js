@@ -17,9 +17,4 @@ export class ViewBaseController {
         }
     }
     
-    saveToDashboard() {
-        this.BaseApi.saveForeingBase({db: this.base.id}).then((response) => {
-            console.log(response);
-        });
-    }
 }
