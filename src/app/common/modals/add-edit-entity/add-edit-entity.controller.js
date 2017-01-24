@@ -24,7 +24,7 @@ export class AddEditEntityController {
         if (!this.entity.value.name) {
             return;
         }
-        this.ConnectionApi.getEntityByConnection($item.name + '/' + this.entity.value.name).then((response) => {
+        this.ConnectionApi.getEntityByConnection({relation:$item.name, word:this.entity.value.name}).then((response) => {
             if (!response.result) {
                 this.subConnections = [];
                 this.inputType = {
