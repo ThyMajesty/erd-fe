@@ -56,6 +56,8 @@ export class DashboardController {
             })
             return acc;
         }, {});
+
+        this.data = JSON.stringify(this.data) === JSON.stringify({}) ? null : this.data;
         /*this.data = {
             bases: data
         };*/
