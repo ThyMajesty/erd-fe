@@ -3,7 +3,7 @@
         <div class="page-header">
             <h1 id="navbar">Dashboard</h1>
         </div>
-        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12" ng-if="$ctrl.data">
             <div class="list-group bases" ng-repeat="(key,owner) in $ctrl.data">
                 <span>Bases created by {{owner.owner.isMe ? 'me' : owner.owner.name}}</span>
                 <a class="base list-group-item" ng-click="expand[base.pk] = !expand[base.pk]" ng-repeat="base in owner.bases">
@@ -49,6 +49,15 @@
                     </div>
                 </a>
                 <a ng-if="owner.owner.isMe" href="" class="base list-group-item" ng-click="$ctrl.addBase()">
+                    <h4 class="base-head list-group-item-heading">Add New Base
+                        <span class="base-head-controls glyphicon glyphicon-plus"></span>
+                    </h4>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12" ng-if="!$ctrl.data">
+            <div class="list-group bases" >
+                <a href="" class="base list-group-item" ng-click="$ctrl.addBase()">
                     <h4 class="base-head list-group-item-heading">Add New Base
                         <span class="base-head-controls glyphicon glyphicon-plus"></span>
                     </h4>
